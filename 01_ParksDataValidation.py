@@ -12,24 +12,28 @@ from qgis.core import (
 from PyQt5.QtCore import QVariant
 
 # Define paths and parameters
-output_dir = "C:/Users/YourUsername/Desktop/park_validation"  # Update with your output directory
-osm_layer_name = "osm_parks"  # Name of OSM polygons layer in QGIS
-muni_layer_name = "municipality_parks"  # Name of municipality points layer in QGIS
-osm_id_field = "id"  # OSM polygon ID field name (update if different, e.g., 'osm_id')
+output_dir = "/Users/Nourah/Desktop/Urban Spatial Science/courses/Dissertation/CASA-Disso-25/Data"  # Specify output directory
+osm_layer_name = "OSM_parks"  # Name of OSM polygons layer in QGIS
+muni_layer_name = "portal-parks"  # Name of municipality points layer in QGIS
+osm_id_field = "osm_id"  # Specify cols to copy from inital layer. From OSM data, copy id in case needed for validation
 point_attributes = [
     "OBJECTID", "FEATURE_ANAME", "MUNICIPALITY", "DISTRICT",
-    "WALKING_TRACK", "GREEN_AREAS", "LAYERID", "LAYERNAME"
-]
-output_crs = "EPSG:4326"  # Example: UTM zone, adjust to your region
+    "WALKING_TRACK", "GREEN_AREAS", "LAYERID", "LAYERANAME"
+] # Specify cols to copy from inital layer. chose variables that might be useful for future analysis
+output_crs = "EPSG:4326"  # Specify output CRS to ensure consistency
 
 # Ensure output directory exists
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 # Load layers
-osm_layer = QgsProject.instance().mapLayersByName(osm_layer_name)[0]
-muni_layer = QgsProject.instance().mapLayersByName(muni_layer_name)[0]
-
+try:
+    osm_layer = QgsProject.instance().mapLayersByName(osm_layer_name)[0]
+    muni_layer = QgsProject.instance().mapLayersByName(muni_layer_name)[0]
+except IndexError:
+    print(f"Error: One or both layers ('{osm_layer_name}', '{muni_layer_name}') not found in QGIS project.")
+    raise
+    
 # Verify CRS consistency
 if osm_layer.crs() != muni_layer.crs():
     print("CRS mismatch detected. Reprojecting municipality layer to match OSM layer.")
@@ -95,33 +99,18 @@ for muni_feat in valid_muni.getFeatures():
             sink.addFeature(new_feat, QgsFeatureSink.FastInsert)
             added_polygons.add(osm_id)
 
-# Step 4: Save validated layer
-output_validated = os.path.join(output_dir, "validated_parks.gpkg")
-QgsVectorFileWriter.writeAsVectorFormatV2(
-    validated_layer,
-    output_validated,
-    QgsCoordinateReferenceSystem(output_crs),
-    driverName="GPKG"
-)
-
-# Step 5: Save summary CSV (number of points per polygon)
-summary_path = os.path.join(output_dir, "validation_summary.csv")
-point_counts = {}
-for osm_id in added_polygons:
-    count = 0
-    for osm_feat in valid_osm.getFeatures():
-        if osm_feat[osm_id_field] == osm_id:
-            osm_geom = osm_feat.geometry()
-            for muni_feat in valid_muni.getFeatures():
-                if muni_feat.geometry().intersects(osm_geom):
-                    count += 1
-            point_counts[osm_id] = count
-            break
-
-with open(summary_path, "w") as f:
-    f.write("osm_id,point_count\n")
-    for osm_id, count in point_counts.items():
-        f.write(f"{osm_id},{count}\n")
-
-print(f"Processing complete. Validated layer saved to {output_validated}")
-print(f"Summary saved to {summary_path}")
+# Step 4: Save validated layer as GeoJSON
+output_validated = os.path.join(output_dir, "Riyadh_parks_validated.geojson")
+writer_options = QgsVectorFileWriter.SaveVectorOptions()
+writer_options.driverName = "GeoJSON"
+writer_options.destCRS = QgsCoordinateReferenceSystem(output_crs)
+try:
+    QgsVectorFileWriter.writeAsVectorFormatV2(
+        validated_layer,
+        output_validated,
+        QgsProject.instance().transformContext(),
+        writer_options
+    )
+except Exception as e:
+    print(f"Error saving validated layer: {e}")
+    raise
