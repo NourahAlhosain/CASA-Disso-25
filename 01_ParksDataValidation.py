@@ -12,7 +12,7 @@ from qgis.core import (
 from PyQt5.QtCore import QVariant
 
 # Define paths and parameters
-output_dir = "/Users/Nourah/Desktop/Urban Spatial Science/courses/Dissertation/CASA-Disso-25/Data"  # Specify output directory
+output_dir = "/Data"  # Specify output directory
 osm_layer_name = "OSM_parks"  # Name of OSM polygons layer in QGIS
 muni_layer_name = "portal-parks"  # Name of municipality points layer in QGIS
 osm_id_field = "osm_id"  # Specify cols to copy from inital layer. From OSM data, copy id in case needed for validation
