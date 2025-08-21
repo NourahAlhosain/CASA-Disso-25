@@ -1,3 +1,9 @@
+
+## This script was used in QGIS to validate the parks to be considered for the analysis.
+## It reads OSM park's polygons data and Riyadh Municipality parks points data and performs a spatial join
+## the resulted joind layer was then visually verified in QGIS
+
+
 import os
 import processing
 from qgis.core import (
