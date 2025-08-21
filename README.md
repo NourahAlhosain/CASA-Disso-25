@@ -1,14 +1,14 @@
 # Mitigating Urban Heat Island in Arid Cities: Satellite-Based Analysis of Urban Greening, Evidence from Riyadh
 
 
-This repository contains analysis done for my MSs in [Urban Spatial Science](https://www.ucl.ac.uk/prospective-students/graduate/taught-degrees/urban-spatial-science-msc) offered by The UCL Bartlett Centre for Advanced Spatial Analysis (CASA).
+This repository contains analysis done for my MSs in <a href="https://www.ucl.ac.uk/prospective-students/graduate/taught-degrees/urban-spatial-science-msc" target="_blank"> Urban Spatial Science</a> offered by The UCL Bartlett Centre for Advanced Spatial Analysis (CASA).
 
 
 ## Research Overview
 
 ### Research Question and Objectives
-This study explores urban greening’s potential to mitigate urban heat islands in arid cities, with Riyadh as a case study.  
-**Research Question**: *How can urban greening achieve optimal microscale temperature reductions in arid cities?*  
+ *How can urban greening achieve optimal microscale temperature reductions in arid cities?*  
+ <br>
 **Objectives**:
 - Measure temperature reductions linked to urban greening in Riyadh’s microscale zones.
 - Quantify the relationship between green space characteristics and temperature reduction.
@@ -21,7 +21,7 @@ Rapid urbanization intensifies urban heat islands worldwide, exacerbating public
 </div>
 
 ### Paper
-The paper link will be added once published
+The paper link will be added once published.
 
 ## Repository Contents
 
@@ -36,7 +36,7 @@ The paper link will be added once published
 
 - **03_NDVI-PISIRetrieval.ipynb**: Calculates Normalized Difference Vegetation Index (NDVI) and Perpendicular Impervious Surface Index (PISI) to assess vegetation and impervious surfaces for study area. 
 
-- **04_1_building_footprints_Extraction.ipynb**: Extracts building footprints for urban context analysis. The code is adopted from [link](https://github.com/microsoft/GlobalMLBuildingFootprints/tree/main/examples) to extract buildings within the study area.
+- **04_1_building_footprints_Extraction.ipynb**: Extracts building footprints for urban context analysis. The code is adopted from <a href="https://github.com/microsoft/GlobalMLBuildingFootprints/tree/main/examples" target="_blank"> here</a> to extract buildings within the study area.
 
 **Analysis**  
 - **04_FactorsCalculations.ipynb**: Computes park morphology (area and Landscape Shape Index), land composition (Avg NDVI and PISI), and urban context factors (building density and proximity).
@@ -57,7 +57,7 @@ The `Data/` folder contains GeoJSON files with park boundaries, buffer zones, st
 
 
 ## Notes on Ignored Files
-**Due to their large size, raw and processed satellite raster files (e.g., Landsat 8/9 imagery and derived land surface temperature, NDVI, and PISI rasters) are excluded via `.gitignore`.** Raw Landsat 8/9 Level 2 products (June–August 2024) can be downloaded from the [USGS EarthExplorer](https://earthexplorer.usgs.gov/). Processed rasters access instructions detailed in relevant scripts.
+**Due to their large size, raw and processed satellite raster files (e.g., Landsat 8/9 imagery and derived land surface temperature, NDVI, and PISI rasters) are excluded via `.gitignore`.** Raw Landsat 8/9 Level 2 products (June–August 2024) can be downloaded from the <a href="https://earthexplorer.usgs.gov/" target="_blank">USGS EarthExplorer</a>. Processed rasters access instructions are detailed in relevant scripts.
 
 These rasters should be stored in the `Data/Raster/` folder for use with the provided scripts.
 
